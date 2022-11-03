@@ -93,7 +93,7 @@ docker的使用 请读者根据上文提示 制作容器后 使用`docker exec -
 
 ## Experimental effect
 
-![orb_test](https://sm.ms/image/INlfX4rSQ3HbTZc)
+![orb_test](https://s2.loli.net/2022/11/03/INlfX4rSQ3HbTZc.png)
 
 ## License
 
