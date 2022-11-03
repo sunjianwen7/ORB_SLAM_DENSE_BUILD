@@ -1,0 +1,26 @@
+version: '3'
+services:
+    orb:
+        build:
+            context: ./dockerfile
+            dockerfile: Dockerfile
+        restart: on-failure
+        container_name: orb
+        volumes:
+            - '/tmp/.X11-unix:/tmp/.X11-unix:rw'
+            - './data/orb_daufalt.yaml:/orb_daufalt.yaml'
+            - './data/orb_tum_data.bag:/orb_tum_data.bag'
+        shm_size: '1gb'
+        deploy:
+            resources:
+                reservations:
+                    devices:
+                        - driver: "nvidia"
+                          count: "all"
+                          capabilities: ["gpu"]
+        environment:
+            - 'DISPLAY=:0'
+            - GDK_SCALE
+            - GDK_DPI_SCALE
+        stdin_open: true
+        tty: true
