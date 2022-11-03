@@ -8,25 +8,36 @@
 
 ### base-environment
 
-`apt update`
-`apt-get install -y cmake git build-essential libgtk2.0-dev python3-pip wget gdb zip libgtk-3-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libdc1394-22-dev libglu1-mesa-dev freeglut3-dev mesa-common-dev libgl1-mesa-dev libglew-dev` 
+
+
+```
+apt update
+apt-get install -y cmake git build-essential libgtk2.0-dev python3-pip wget gdb zip libgtk-3-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libdc1394-22-dev libglu1-mesa-dev freeglut3-dev mesa-common-dev libgl1-mesa-dev libglew-dev 
+```
 
 ### Pangolin
 
+
+
 `git clone https://ghproxy.com/https://github.com/stevenlovegrove/Pangolin.git`
-`cd Pangolin`
-`git checkout v0.5`
-`mkdir build`
-`cd build`
-`cmake ..`
-`make -j`
-`make install`
+
+`cd Pangolingit checkout v0.5mkdir buildcd buildcmake ..make -jmake install`
 
 ### OpenCV
 
 `sudo apt install libopencv-dev`
 
-如果安装失败 请读者自行克隆opencv 编译安装
+如果安装失败 请读者自行克隆opencv 编译安装3.4.1版本
+
+```
+git clone https://ghproxy.com/https://github.com/opencv/opencv.git
+cd opencv
+git checkout 3.4.1
+mkdir build
+cd build
+cmake ..
+make 
+```
 
 ### Eigen3
 
@@ -59,17 +70,16 @@ chmod +x build.sh
 ./build.sh
 ```
 
-`ROS package build:`
+ROS package build:
 
-`cd ORB_SLAM2/Examples/ROS/ORB_SLAM2`
-
-`mkdir build`
-`cd build`
-
-`export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:/dense-orbslam2/Examples/ROS`
-
-`cmake ..` 
-`make` 
+```
+cd ORB_SLAM2/Examples/ROS/ORB_SLAM2
+mkdir build
+cd build
+export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:/dense-orbslam2/Examples/ROS
+cmake ..
+make
+```
 
 ## quickly start 
 
@@ -79,11 +89,11 @@ chmod +x build.sh
 
 #如果使用可视化 务必将docker-compose中环境变量DISPLAY即容器环境变量 保持与主机DISPLAY一致
 
-`cd ORB_SLAM2/docker`
-
-`xhost +`
-
-`docker-compose -f docker-compose_orb.yml up -d`
+```
+cd ORB_SLAM2/docker
+xhost +
+docker-compose -f docker-compose_orb.yml up -d
+```
 
 ## Some instructions
 
