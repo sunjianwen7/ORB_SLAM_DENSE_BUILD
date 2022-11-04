@@ -63,10 +63,10 @@ void PointCloudMapping::insertKeyFrame(System *mpSys, KeyFrame* kf, cv::Mat& col
     keyframes.push_back( kf );
     colorImgs.push_back( color.clone() );
     depthImgs.push_back( depth.clone() );
-    mpSys->globalMap=globalMap
+    mpSys->globalMap=globalMap;
     keyFrameUpdated.notify_one();
 }
-pcl::PointCloud< PointCloudMapping::PointT >::Ptr PointCloudMapping::generatePointCloud(KeyFrame* kf, cv::Mat& color, cv::Mat& depth)
+pcl::PointCloud<PointT>::Ptr PointCloudMapping::generatePointCloud(KeyFrame* kf, cv::Mat& color, cv::Mat& depth)
 {
     PointCloud::Ptr tmp( new PointCloud() );
     // point cloud is null ptr

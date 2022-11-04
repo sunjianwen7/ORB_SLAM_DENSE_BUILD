@@ -23,15 +23,18 @@
 #include<algorithm>
 #include<fstream>
 #include<chrono>
-
+#include <thread>
 #include<ros/ros.h>
 #include <cv_bridge/cv_bridge.h>
 #include <message_filters/subscriber.h>
 #include <message_filters/time_synchronizer.h>
 #include <message_filters/sync_policies/approximate_time.h>
-
+#include <sensor_msgs/PointCloud2.h>
 #include<opencv2/core/core.hpp>
-
+#include <pcl_conversions/pcl_conversions.h>
+#include <pcl/point_types.h>
+#include <pcl/PCLPointCloud2.h>
+#include <pcl/conversions.h>
 #include"../../../include/System.h"
 
 using namespace std;
@@ -45,7 +48,6 @@ public:
 
     ORB_SLAM2::System* mpSLAM;
 };
-
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "RGBD");
@@ -71,8 +73,13 @@ int main(int argc, char **argv)
     typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::Image, sensor_msgs::Image> sync_pol;
     message_filters::Synchronizer<sync_pol> sync(sync_pol(10), rgb_sub,depth_sub);
     sync.registerCallback(boost::bind(&ImageGrabber::GrabRGBD,&igb,_1,_2));
-
-    ros::spin();
+    ros::Publisher cloud_pub = nh.advertise<sensor_msgs::PointCloud2>("orb_cloud", 50);
+    ros::Rate r(1.0);
+    while(nh.ok()){
+        sensor_msgs::PointCloud2 msg;
+        pcl::toROSMsg(*(SLAM.globalMap),msg);
+        cloud_pub.publish(msg);
+    }
 
     // Stop all threads
     SLAM.Shutdown();

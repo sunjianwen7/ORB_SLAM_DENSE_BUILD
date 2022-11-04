@@ -20,25 +20,29 @@
 #ifndef POINTCLOUDMAPPING_H
 #define POINTCLOUDMAPPING_H
 
-#include "System.h"
+
 
 #include <pcl/common/transforms.h>
 #include <pcl/point_types.h>
 #include <pcl/filters/voxel_grid.h>
 #include <condition_variable>
-
+#include "System.h"
+typedef pcl::PointXYZRGBA PointT;
+typedef pcl::PointCloud<PointT> PointCloud;
+namespace ORB_SLAM2
+{
+class System;
+}
 using namespace ORB_SLAM2;
-
 class PointCloudMapping
 {
 public:
-    typedef pcl::PointXYZRGBA PointT;
-    typedef pcl::PointCloud<PointT> PointCloud;
+    
     PointCloudMapping( double resolution_ ,string savepath);
     
     // 插入一个keyframe，会更新一次地图
     void insertKeyFrame( KeyFrame* kf, cv::Mat& color, cv::Mat& depth );
-    void insertKeyFrame( System *mpSys,KeyFrame* kf, cv::Mat& color, cv::Mat& depth );
+    void insertKeyFrame( System* mpSys,KeyFrame* kf, cv::Mat& color, cv::Mat& depth );
     void shutdown();
     void viewer();
     
@@ -63,5 +67,4 @@ protected:
     string savepath;
     pcl::VoxelGrid<PointT>  voxel;
 };
-
 #endif // POINTCLOUDMAPPING_H
