@@ -54,6 +54,18 @@ void PointCloudMapping::insertKeyFrame(KeyFrame* kf, cv::Mat& color, cv::Mat& de
     keyFrameUpdated.notify_one();
 }
 
+//sjw
+void PointCloudMapping::insertKeyFrame(System *mpSys, KeyFrame* kf, cv::Mat& color, cv::Mat& depth)
+{
+    cout<<"receive a keyframe, id = "<<kf->mnId<<endl;
+
+    unique_lock<mutex> lck(keyframeMutex);
+    keyframes.push_back( kf );
+    colorImgs.push_back( color.clone() );
+    depthImgs.push_back( depth.clone() );
+    mpSys->globalMap=globalMap
+    keyFrameUpdated.notify_one();
+}
 pcl::PointCloud< PointCloudMapping::PointT >::Ptr PointCloudMapping::generatePointCloud(KeyFrame* kf, cv::Mat& color, cv::Mat& depth)
 {
     PointCloud::Ptr tmp( new PointCloud() );

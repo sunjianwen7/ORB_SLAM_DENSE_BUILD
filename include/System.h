@@ -36,12 +36,11 @@
 #include "ORBVocabulary.h"
 #include "Viewer.h"
 #include "pointcloudmapping.h"
-
+#include <pcl/point_types.h>
 class PointCloudMapping; 
 
 namespace ORB_SLAM2
 {
-
 class Viewer;
 class FrameDrawer;
 class Map;
@@ -59,7 +58,9 @@ public:
     };
 
 public:
-
+    typedef pcl::PointXYZRGBA PointT;
+    typedef pcl::PointCloud<PointT> PointCloud;
+    PointCloud::Ptr globalMap;
     // Initialize the SLAM system. It launches the Local Mapping, Loop Closing and Viewer threads.
     System(const string &strVocFile, const string &strSettingsFile, const eSensor sensor, const bool bUseViewer = true);
 

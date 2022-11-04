@@ -32,6 +32,7 @@ System::System(const string &strVocFile, const string &strSettingsFile, const eS
                const bool bUseViewer):mSensor(sensor),mbReset(false),mbActivateLocalizationMode(false),
         mbDeactivateLocalizationMode(false)
 {
+    globalMap = boost::make_shared< PointCloud >( );//sjw
     // Output welcome message
     cout << endl <<
     "ORB-SLAM2 Dense point cloud version" << endl << endl;

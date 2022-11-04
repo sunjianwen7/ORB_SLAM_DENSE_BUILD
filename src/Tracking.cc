@@ -51,6 +51,8 @@ Tracking::Tracking(System *pSys, ORBVocabulary* pVoc, FrameDrawer *pFrameDrawer,
     mpKeyFrameDB(pKFDB), mpInitializer(static_cast<Initializer*>(NULL)), mpSystem(pSys),
     mpFrameDrawer(pFrameDrawer), mpMapDrawer(pMapDrawer), mpMap(pMap), mnLastRelocFrameId(0)
 {
+    //sjw
+    this->mpSys=pSys;
     // Load camera parameters from settings file
 
     cv::FileStorage fSettings(strSettingPath, cv::FileStorage::READ);
@@ -150,6 +152,9 @@ Tracking::Tracking(System *pSys, ORBVocabulary* pVoc, FrameDrawer *pFrameDrawer,
     }
 
 }
+
+
+
 
 void Tracking::SetLocalMapper(LocalMapping *pLocalMapper)
 {
@@ -1156,9 +1161,8 @@ void Tracking::CreateNewKeyFrame()
     mpLocalMapper->InsertKeyFrame(pKF);
 
     mpLocalMapper->SetNotStop(false);
-    
-    mpPointCloudMapping->insertKeyFrame( pKF, this->mImRGB, this->mImDepth );
-    printf("enter here 2 !!!");
+    //mpPointCloudMapping->insertKeyFrame( pKF, this->mImRGB, this->mImDepth );
+    mpPointCloudMapping->insertKeyFrame( mpSys,pKF, this->mImRGB, this->mImDepth);//mpSys
     mnLastKeyFrameId = mCurrentFrame.mnId;
     mpLastKeyFrame = pKF;
 }

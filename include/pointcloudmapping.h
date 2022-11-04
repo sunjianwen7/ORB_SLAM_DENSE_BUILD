@@ -34,11 +34,11 @@ class PointCloudMapping
 public:
     typedef pcl::PointXYZRGBA PointT;
     typedef pcl::PointCloud<PointT> PointCloud;
-    
     PointCloudMapping( double resolution_ ,string savepath);
     
     // 插入一个keyframe，会更新一次地图
     void insertKeyFrame( KeyFrame* kf, cv::Mat& color, cv::Mat& depth );
+    void insertKeyFrame( System *mpSys,KeyFrame* kf, cv::Mat& color, cv::Mat& depth );
     void shutdown();
     void viewer();
     

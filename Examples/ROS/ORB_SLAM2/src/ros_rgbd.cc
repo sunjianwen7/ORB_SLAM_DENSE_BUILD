@@ -59,7 +59,7 @@ int main(int argc, char **argv)
     }
     cv::FileStorage fsSettings(argv[1], cv::FileStorage::READ);
     // Create SLAM system. It initializes all system threads and gets ready to process frames.
-    ORB_SLAM2::System SLAM("/dense-orbslam2/Vocabulary/ORBvoc.txt",argv[1],ORB_SLAM2::System::RGBD,true);
+    ORB_SLAM2::System SLAM("/dense-orbslam2/Vocabulary/ORBvoc.txt",argv[1],ORB_SLAM2::System::RGBD,false);
 
     ImageGrabber igb(&SLAM);
 
