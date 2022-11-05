@@ -24,11 +24,12 @@
 #include "Converter.h"
 #include <pcl/io/pcd_io.h>
 
-PointCloudMapping::PointCloudMapping(double resolution_,string savepath)
+PointCloudMapping::PointCloudMapping(double resolution_,string savepath,bool viewer_flag)
 {
     voxel.setLeafSize( resolution_, resolution_, resolution_);
     globalMap = boost::make_shared< PointCloud >( );
     this->savepath=savepath;
+    this->viewer_flag=viewer_flag;
     viewerThread = make_shared<thread>( bind(&PointCloudMapping::viewer, this ) );
 }
 
@@ -103,6 +104,9 @@ pcl::PointCloud<PointT>::Ptr PointCloudMapping::generatePointCloud(KeyFrame* kf,
 
 void PointCloudMapping::viewer()
 {
+    if (viewer_flag)
+    {
+    cout<<"viewer mode"<<endl;
     pcl::visualization::CloudViewer viewer("viewer");
     while(1)
     {
@@ -144,6 +148,50 @@ void PointCloudMapping::viewer()
         viewer.showCloud( globalMap );
         cout<<"show global map, size="<<globalMap->points.size()<<endl;
         lastKeyframeSize = N;
+    }
+    }
+    else
+    {
+        cout<<"no viewer mode"<<endl;
+        while(1)
+    {
+        {
+            unique_lock<mutex> lck_shutdown( shutDownMutex );
+
+            if (shutDownFlag)
+            {
+                break;
+            }
+
+
+        }
+        {
+            unique_lock<mutex> lck_keyframeUpdated( keyFrameUpdateMutex );
+            keyFrameUpdated.wait( lck_keyframeUpdated );
+        }
+        
+        // keyframe is updated 
+        size_t N=0;
+        {
+            unique_lock<mutex> lck( keyframeMutex );
+            N = keyframes.size();
+        }
+        
+        for ( size_t i=lastKeyframeSize; i<N ; i++ )
+        {
+            PointCloud::Ptr p = generatePointCloud( keyframes[i], colorImgs[i], depthImgs[i] );
+            *globalMap += *p;
+
+        }
+
+        pcl::io::savePCDFileBinary(this->savepath, *globalMap);
+        PointCloud::Ptr tmp(new PointCloud());
+        voxel.setInputCloud( globalMap );
+        voxel.filter( *tmp );
+        tmp->swap( *globalMap );
+        cout<<"show global map, size="<<globalMap->points.size()<<endl;
+        lastKeyframeSize = N;
+    }
     }
 }
 

@@ -1,14 +1,12 @@
 # ORB_SLAM_DENSE_BUILD
 
-该项目基于ORB_SLAM2原版本以及高翔修改的稠密点云版本修改而成 制作了dockerfile docker-compose，并且配备的可视化界面的轻量镜像，可以建造稠密点云地图 并且生成八叉树用于全局导航
+该版本较amd分支版本 更改了显示界面问题 由于opengl以及显卡驱动原因无法在docker启动可视化的问题 将界面去除 发布ROS点云数据Pointloud2
 
 ## Prerequisites
 
 项目测试于ubuntu18.04，ROS melodic
 
 ### base-environment
-
-
 
 ```
 apt update

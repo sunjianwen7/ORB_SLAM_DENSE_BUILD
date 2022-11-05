@@ -38,8 +38,7 @@ class PointCloudMapping
 {
 public:
     
-    PointCloudMapping( double resolution_ ,string savepath);
-    
+    PointCloudMapping( double resolution_ ,string savepath,bool viewer_flag);
     // 插入一个keyframe，会更新一次地图
     void insertKeyFrame( KeyFrame* kf, cv::Mat& color, cv::Mat& depth );
     void insertKeyFrame( System* mpSys,KeyFrame* kf, cv::Mat& color, cv::Mat& depth );
@@ -65,6 +64,7 @@ protected:
     mutex                   keyframeMutex;
     uint16_t                lastKeyframeSize =0;
     string savepath;
+    bool viewer_flag;
     pcl::VoxelGrid<PointT>  voxel;
 };
 #endif // POINTCLOUDMAPPING_H
