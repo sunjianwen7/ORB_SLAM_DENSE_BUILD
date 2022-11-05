@@ -7,7 +7,6 @@ services:
         restart: on-failure
         container_name: orb
         volumes:
-            - '/tmp/.X11-unix:/tmp/.X11-unix:rw'
             - './data/orb_daufalt.yaml:/orb_daufalt.yaml'
         shm_size: '1gb'
         deploy:
@@ -17,9 +16,5 @@ services:
                         - driver: "nvidia"
                           count: "all"
                           capabilities: ["gpu"]
-        environment:
-            - 'DISPLAY=:0'
-            - GDK_SCALE
-            - GDK_DPI_SCALE
         stdin_open: true
         tty: true
