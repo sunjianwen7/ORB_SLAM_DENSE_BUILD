@@ -9,7 +9,6 @@ services:
         volumes:
             - '/tmp/.X11-unix:/tmp/.X11-unix:rw'
             - './data/orb_daufalt.yaml:/orb_daufalt.yaml'
-            - './data/orb_tum_data.bag:/orb_tum_data.bag'
         shm_size: '1gb'
         deploy:
             resources:
