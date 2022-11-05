@@ -9,5 +9,6 @@ services:
         volumes:
             - './data/orb_daufalt.yaml:/orb_daufalt.yaml'
         shm_size: '1gb'
+        network_mode: host
         stdin_open: true
         tty: true
