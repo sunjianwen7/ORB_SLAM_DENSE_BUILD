@@ -1,0 +1,13 @@
+version: '3'
+services:
+    orb:
+        build:
+            context: ./dockerfile
+            dockerfile: Dockerfile
+        restart: on-failure
+        container_name: orb
+        volumes:
+            - './data/orb_daufalt.yaml:/orb_daufalt.yaml'
+        shm_size: '1gb'
+        stdin_open: true
+        tty: true
