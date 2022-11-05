@@ -17,11 +17,16 @@ apt-get install -y cmake git build-essential libgtk2.0-dev python3-pip wget gdb 
 
 ### Pangolin
 
-
-
-`git clone https://ghproxy.com/https://github.com/stevenlovegrove/Pangolin.git`
-
-`cd Pangolingit checkout v0.5mkdir buildcd buildcmake ..make -jmake install`
+```
+git clone https://ghproxy.com/https://github.com/stevenlovegrove/Pangolin.git
+cd Pangolin
+git checkout v0.5
+mkdir build
+cd build
+cmake ..
+make -j
+make install
+```
 
 ### OpenCV
 
