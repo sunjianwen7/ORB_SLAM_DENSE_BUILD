@@ -48,6 +48,50 @@ public:
 
     ORB_SLAM2::System* mpSLAM;
 };
+class ROSNODE
+{
+public:
+    ROSNODE(ORB_SLAM2::System* pSLAM,string rgb_topic,string depth_topic):mpSLAM(pSLAM),rgb_topic(rgb_topic),depth_topic(depth_topic){}
+    ORB_SLAM2::System* mpSLAM;
+    ros::NodeHandle nh;
+    string rgb_topic;
+    string depth_topic;
+    void init();
+    void thread_pub();
+
+};
+void ROSNODE::init()
+{
+    message_filters::Subscriber<sensor_msgs::Image> rgb_sub(nh, rgb_topic, 1);
+    message_filters::Subscriber<sensor_msgs::Image> depth_sub(nh, depth_topic, 1);
+    typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::Image, sensor_msgs::Image> sync_pol;
+    ImageGrabber igb(mpSLAM);
+    message_filters::Synchronizer<sync_pol> sync(sync_pol(10), rgb_sub,depth_sub);
+    sync.registerCallback(boost::bind(&ImageGrabber::GrabRGBD,&igb,_1,_2));
+    thread mtd(&ROSNODE::thread_pub,this);
+    mtd.detach();
+    ros::spin();
+    // Stop all threads
+}
+void ROSNODE::thread_pub()
+{
+    ros::Publisher cloud_pub = nh.advertise<sensor_msgs::PointCloud2>("orb_cloud",1);
+    ros::Rate r(1);
+    while(nh.ok()){
+        
+        sensor_msgs::PointCloud2 msg;
+        pcl::toROSMsg(*(mpSLAM->globalMap),msg);
+        msg.header.frame_id="map";
+        msg.header.stamp=ros::Time::now();
+        cloud_pub.publish(msg);
+        r.sleep();
+        
+    }
+
+}
+
+
+
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "RGBD");
@@ -62,26 +106,10 @@ int main(int argc, char **argv)
     cv::FileStorage fsSettings(argv[1], cv::FileStorage::READ);
     // Create SLAM system. It initializes all system threads and gets ready to process frames.
     ORB_SLAM2::System SLAM("/dense-orbslam2/Vocabulary/ORBvoc.txt",argv[1],ORB_SLAM2::System::RGBD,false);
-
-    ImageGrabber igb(&SLAM);
-
-    ros::NodeHandle nh;
     string rgb_topic =fsSettings["ROS.Rgb_image_topic"];
     string depth_topic =fsSettings["ROS.Depth_image_topic"];
-    message_filters::Subscriber<sensor_msgs::Image> rgb_sub(nh, rgb_topic, 1);
-    message_filters::Subscriber<sensor_msgs::Image> depth_sub(nh, depth_topic, 1);
-    typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::Image, sensor_msgs::Image> sync_pol;
-    message_filters::Synchronizer<sync_pol> sync(sync_pol(10), rgb_sub,depth_sub);
-    sync.registerCallback(boost::bind(&ImageGrabber::GrabRGBD,&igb,_1,_2));
-    ros::Publisher cloud_pub = nh.advertise<sensor_msgs::PointCloud2>("orb_cloud", 50);
-    ros::Rate r(1.0);
-    while(nh.ok()){
-        sensor_msgs::PointCloud2 msg;
-        pcl::toROSMsg(*(SLAM.globalMap),msg);
-        cloud_pub.publish(msg);
-    }
-
-    // Stop all threads
+    ROSNODE rosnode(&SLAM,rgb_topic,depth_topic);
+    rosnode.init();
     SLAM.Shutdown();
 
     // Save camera trajectory
