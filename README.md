@@ -48,12 +48,6 @@ make
 
 如果安装失败 请读者自行克隆Eigen3编译安装
 
-### PCL
-
-`sudo apt install libpcl-dev`
-
-如果安装失败 请读者自行克隆PCL编译安装
-
 ### ROS
 
 推荐使用 鱼香ros的一键安装
