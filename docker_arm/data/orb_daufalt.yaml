@@ -5,16 +5,15 @@
 #--------------------------------------------------------------------------------------------
 
 # Camera calibration and distortion parameters (OpenCV) 
-Camera.fx: 617.201
-Camera.fy: 617.362
-Camera.cx: 324.637
-Camera.cy: 242.462
+Camera.fx: 515.288777
+Camera.fy: 517.661012
+Camera.cx: 317.909815
+Camera.cy: 241.573428
 
-Camera.k1: 0.0
-Camera.k2: 0.0
-Camera.p1: 0.0
-Camera.p2: 0.0
-Camera.k3: 0.0
+Camera.k1: 0.039128
+Camera.k2: -0.136553
+Camera.p1: -0.000142
+Camera.p2: -0.000765
 
 Camera.width: 640
 Camera.height: 480
@@ -31,8 +30,8 @@ Camera.RGB: 1
 # Close/Far threshold. Baseline times.
 ThDepth: 40.0
 
-# Deptmap values factor 
-DepthMapFactor: 1
+# Deptmap values factor
+DepthMapFactor: 1.0
 
 #--------------------------------------------------------------------------------------------
 # ORB Parameters
@@ -57,6 +56,7 @@ ORBextractor.minThFAST: 7
 #--------------------------------------------------------------------------------------------
 # Viewer Parameters
 #--------------------------------------------------------------------------------------------
+Viewer.Isopen: 1
 Viewer.KeyFrameSize: 0.05
 Viewer.KeyFrameLineWidth: 1
 Viewer.GraphLineWidth: 0.9
@@ -68,12 +68,8 @@ Viewer.ViewpointY: -0.7
 Viewer.ViewpointZ: -1.8
 Viewer.ViewpointF: 500
 #--------------------------------------------------------------------------------------------
-# PointCloud Parameters
-#--------------------------------------------------------------------------------------------
-PointCloudMapping.Resolution: 0.01
-PointCloudMapping.SavePath: './vslam.pcd'
-#--------------------------------------------------------------------------------------------
-# ros Parameters
+# Ros Parameters
 #--------------------------------------------------------------------------------------------
 ROS.Rgb_image_topic: "/camera/rgb/image_color"
 ROS.Depth_image_topic: "/camera/depth/image"
+ROS.Poinntcloud_topic: "/"

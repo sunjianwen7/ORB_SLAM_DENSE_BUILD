@@ -25,23 +25,20 @@
 #include<opencv2/core/core.hpp>
 #include<opencv2/features2d/features2d.hpp>
 
-#include "Viewer.h"
-#include "FrameDrawer.h"
-#include "Map.h"
-#include "LocalMapping.h"
-#include "LoopClosing.h"
-#include "Frame.h"
+#include"Viewer.h"
+#include"FrameDrawer.h"
+#include"Map.h"
+#include"LocalMapping.h"
+#include"LoopClosing.h"
+#include"Frame.h"
 #include "ORBVocabulary.h"
-#include "KeyFrameDatabase.h"
-#include "ORBextractor.h"
+#include"KeyFrameDatabase.h"
+#include"ORBextractor.h"
 #include "Initializer.h"
 #include "MapDrawer.h"
 #include "System.h"
 
-#include "pointcloudmapping.h"
 #include <mutex>
-
-class PointCloudMapping;
 
 namespace ORB_SLAM2
 {
@@ -57,13 +54,14 @@ class Tracking
 {  
 
 public:
-System *mpSys;//sjw
-    Tracking(System* pSys, ORBVocabulary* pVoc, FrameDrawer* pFrameDrawer, MapDrawer* pMapDrawer, Map* pMap, shared_ptr<PointCloudMapping> pPointCloud,
+    Tracking(System* pSys, ORBVocabulary* pVoc, FrameDrawer* pFrameDrawer, MapDrawer* pMapDrawer, Map* pMap,
              KeyFrameDatabase* pKFDB, const string &strSettingPath, const int sensor);
 
     // Preprocess the input and call Track(). Extract features and performs stereo matching.
     cv::Mat GrabImageStereo(const cv::Mat &imRectLeft,const cv::Mat &imRectRight, const double &timestamp);
+	cv::Mat GrabImageStereo(const cv::Mat &imRectLeft,const cv::Mat &imRectRight, const double &timestamp,bool& isKeyframe);
     cv::Mat GrabImageRGBD(const cv::Mat &imRGB,const cv::Mat &imD, const double &timestamp);
+	cv::Mat GrabImageRGBD(const cv::Mat &imRGB,const cv::Mat &imD, const double &timestamp,bool& isKeyframe);
     cv::Mat GrabImageMonocular(const cv::Mat &im, const double &timestamp);
 
     void SetLocalMapper(LocalMapping* pLocalMapper);
@@ -98,9 +96,7 @@ public:
 
     // Current Frame
     Frame mCurrentFrame;
-    cv::Mat mImRGB;
     cv::Mat mImGray;
-    cv::Mat mImDepth;
 
     // Initialization Variables (Monocular)
     std::vector<int> mvIniLastMatches;
@@ -125,7 +121,7 @@ protected:
 
     // Main tracking function. It is independent of the input sensor.
     void Track();
-
+    void Track(bool& isKeyframe);
     // Map initialization for stereo and RGB-D
     void StereoInitialization();
 
@@ -220,8 +216,6 @@ protected:
     bool mbRGB;
 
     list<MapPoint*> mlpTemporalPoints;
-    
-    shared_ptr<PointCloudMapping>  mpPointCloudMapping;
 };
 
 } //namespace ORB_SLAM

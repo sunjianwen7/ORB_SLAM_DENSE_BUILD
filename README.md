@@ -1,6 +1,6 @@
 # ORB_SLAM_DENSE_BUILD
 
-该版本较amd分支版本 更改了显示界面问题 由于opengl以及显卡驱动原因无法在docker启动可视化的问题 将界面去除 发布ROS点云数据Pointloud2
+该版本较其他版本 使用分布式方式,使用ORBSLAM2系统发布历程及以及keyFrame对应点云进行拼接，如需分布式点云配准拼接部分请参考本人github另外项目
 
 ## Prerequisites
 
@@ -100,7 +100,7 @@ docker-compose -f docker-compose_orb.yml up -d
 
 ## Some instructions
 
-topic_name请在yaml中自行修改，新增了PointCloudMapping 和 ROS 字段 分别对应 点云相关信息和 ROS相关信息 请读者根据自行需要更改
+topic_name请在yaml中自行修改， Viewer.Isopen和 ROS 字段 分别对应 可视化开关和 ROS相关信息 请读者根据自行需要更改
 
 docker的使用 请读者根据上文提示 制作容器后 使用`docker exec -it orb /bin/bash` 根据自身需求安装其他功能包
 

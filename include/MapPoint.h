@@ -21,12 +21,12 @@
 #ifndef MAPPOINT_H
 #define MAPPOINT_H
 
-#include "KeyFrame.h"
-#include "Frame.h"
-#include "Map.h"
+#include"KeyFrame.h"
+#include"Frame.h"
+#include"Map.h"
 
-#include <opencv2/core/core.hpp>
-#include <mutex>
+#include<opencv2/core/core.hpp>
+#include<mutex>
 
 namespace ORB_SLAM2
 {
@@ -78,7 +78,8 @@ public:
 
     float GetMinDistanceInvariance();
     float GetMaxDistanceInvariance();
-    int PredictScale(const float &currentDist, const float &logScaleFactor);
+    int PredictScale(const float &currentDist, KeyFrame*pKF);
+    int PredictScale(const float &currentDist, Frame* pF);
 
 public:
     long unsigned int mnId;

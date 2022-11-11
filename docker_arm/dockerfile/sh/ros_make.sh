@@ -8,9 +8,9 @@ rosdepc fix-permissions
 rosdepc update
 rosdep update
 source /opt/ros/melodic/setup.bash
-export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:/dense-orbslam2/Examples/ROS
-apt install ros-melodic-tf* ros-melodic-image-transport ros-melodic-cv-bridge ros-melodic-conversions -y
+export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:/dense-orbslam2/ORBSLAM2_ROS
+apt install ros-melodic-tf* ros-melodic-image-transport ros-melodic-cv-bridge -y
 cmake .. 
 make 
-echo "export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:/dense-orbslam2/Examples/ROS" >> /opt/ros/melodic/setup.bash
+echo "export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:/dense-orbslam2/ORBSLAM2_ROS" >> /opt/ros/melodic/setup.bash
 echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
