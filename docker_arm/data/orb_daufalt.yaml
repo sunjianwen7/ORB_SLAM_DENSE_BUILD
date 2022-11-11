@@ -73,3 +73,7 @@ Viewer.ViewpointF: 500
 ROS.Rgb_image_topic: "/camera/rgb/image_color"
 ROS.Depth_image_topic: "/camera/depth/image"
 ROS.Poinntcloud_topic: "/"
+#--------------------------------------------------------------------------------------------
+# System Parameters
+#--------------------------------------------------------------------------------------------
+System.Voc_path: "/dense-orbslam2/Vocabulary/ORBvoc.txt"

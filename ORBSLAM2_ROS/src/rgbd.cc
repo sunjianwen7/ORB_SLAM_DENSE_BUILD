@@ -83,7 +83,8 @@ int main(int argc, char **argv)
     int viewer_temp_flag=fsSettings["Viewer.Isopen"];
     bool viewer_flag=true;
     if (viewer_temp_flag==0) viewer_flag=false;
-    ORB_SLAM2::System SLAM("../Vocabulary/ORBvoc.txt",argv[1],ORB_SLAM2::System::RGBD,viewer_flag);
+    string voc_path =fsSettings["System.Voc_path"];
+    ORB_SLAM2::System SLAM(voc_path,argv[1],ORB_SLAM2::System::RGBD,viewer_flag);
     string rgb_topic =fsSettings["ROS.Rgb_image_topic"];
     string depth_topic =fsSettings["ROS.Depth_image_topic"];
     string pointcloud_topic =fsSettings["ROS.Poinntcloud_topic"];

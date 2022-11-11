@@ -70,7 +70,7 @@ chmod +x build.sh
 ROS package build:
 
 ```
-cd ORB_SLAM2/Examples/ROS/ORB_SLAM2
+cd ORB_SLAM2/ORBSLAM2_ROS
 mkdir build
 cd build
 export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:/dense-orbslam2/Examples/ROS
@@ -80,7 +80,7 @@ make
 
 ## quickly start 
 
-`rosrun ORB_SLAM2 RGBD orb_daufalt.yaml`
+`rosrun ORBSLAM2_ROS RGBD`
 
 ## docker
 
